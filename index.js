@@ -11,16 +11,17 @@ global.client = new Discord.Client({
     Discord.GatewayIntentBits.MessageContent
   ]
 });
-global.log = util.log;
 
 require("./config.js");
 
 if (global.prefix === "" || !global.prefix) global.prefix = new RegExp('^[!.,•°§∆]', "gi");
 if (global.token === "" || !global.prefix) throw new Error("Please set Discord token");
+global.dirname = path.resolve(__dirname);
 global.lib = path.resolve(__dirname, "lib");
 global.dtb = path.resolve(__dirname, "database");
 global.cmds = path.resolve(__dirname, "commands");
 global.event = path.resolve(__dirname, "events");
+global.log = util.log;
 
 client.commands = new Discord.Collection;
 
@@ -50,7 +51,7 @@ async function updateCommands() {
     };
   };
 };
-setInterval(updateCommands, 10 * 60 * 1000);
+setInterval(updateCommands, 10 * 60 * 1000); // 10 minute
 updateCommands();
 
 fs.readdir(event, (err, file) => {
