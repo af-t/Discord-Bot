@@ -8,7 +8,7 @@ module.exports = async(I) => {
   ? global.prefix
   : null;
   if (!prefix) return;
-  let rcmd = I.content.trim().slice(prefix.length).split(/ +/g)[0].toLowerCase();
+  let rcmd = I.content.trim().slice(prefix.length).split(/ +/g)[0].toLowerCase().trim();
   let rarg = I.content.trim().slice(prefix.length).split(/ +/g).slice`1`.join` `;
   let command = client.commands.get(rcmd);
   if (command) {

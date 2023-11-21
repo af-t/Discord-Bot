@@ -34,15 +34,17 @@ async function updateCommands() {
         if (!client.commands.get(_cmd.data.name)) {
           client.commands.set(_cmd.data.name, _cmd);
           if (Array.isArray(_cmd.data.alias)) for (let a of _cmd.data.alias) if (typeof a === "string") client.commands.set(a, _cmd);
-          let res = await fetch(`https://discord.com/api/v10/applications/${appid}/commands`, {
-            method: "POST",
-            headers: {
-              authorization: `Bot ${token}`,
-              "content-type": "application/json"
-            },
-            body: JSON.stringify(_cmd.data)
-          });
+          if (!_cmd.noslash) {
+            let res = await fetch(`https://discord.com/api/v10/applications/${appid}/commands`, {
+              method: "POST",
+              headers: {
+                authorization: `Bot ${token}`,
+                "content-type": "application/json"
+              },
+              body: JSON.stringify(_cmd.data)
+            });
 //          console.log(JSON.parse(Buffer.from(await res.arrayBuffer())));
+          };
           log("Loaded", f);
         };
       };
@@ -64,4 +66,6 @@ fs.readdir(event, (err, file) => {
     client.on(f.split`.js`[0], ev);
   }
 });
+
+// Start client
 client.login(global.token);
